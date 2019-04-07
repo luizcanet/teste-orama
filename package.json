@@ -19,6 +19,9 @@
   "homepage": "https://github.com/luizcanet/teste-orama#readme",
   "dependencies": {
     "angular": "^1.5.9",
+    "angular-filter": "^0.5.17",
+    "angular-i18n": "^1.5.9",
+    "angular-resource": "^1.5.9",
     "foundation-sites": "^6.5.3"
   },
   "devDependencies": {
@@ -26,5 +29,10 @@
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-dart-sass": "^1.1.3"
+  },
+  "standard": {
+    "globals": [
+      "angular"
+    ]
   }
 }
