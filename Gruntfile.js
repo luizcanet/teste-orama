@@ -16,6 +16,9 @@ module.exports = function (grunt) {
     },
     'dart-sass': {
       target: {
+        options: {
+          includePaths: ['node_modules/foundation-sites/scss']
+        },
         files: {
           'styles/main.css': 'src/styles/main.scss'
         }

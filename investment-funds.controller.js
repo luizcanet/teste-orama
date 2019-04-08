@@ -50,8 +50,4 @@ function InvestmentFundsController ($scope, Funds) {
 
     return true
   }
-
-  $scope.log = function (tolog) {
-    console.log(tolog)
-  }
 }
