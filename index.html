@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html ng-app="investmentFunds">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lista de Fundos de Investimento</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-resource/angular-resource.js"></script>
+    <script src="node_modules/angular-filter/dist/angular-filter.js"></script>
+    <script src="node_modules/angular-i18n/angular-locale_pt-br.js"></script>
+    <script src="investment-funds.module.js"></script>
+    <script src="investment-funds.service.js"></script>
+    <script src="investment-funds.controller.js"></script>
+  </head>
+
+  <body ng-controller="InvestmentFundsController">
+    <header class="page-header">
+      <h1 class="page-header__title">Lista de Fundos de Investimento</h1>
+      <p class="page-header__header-text">
+        Conheça nossa lista de fundos
+      </p>
+    </header>
+
+    <main class="page-main-content">
+      <div class="page-main-content__container">
+        <div class="page-main-content__contents">
+          <div class="search-range">
+            <div class="search-box input-group">
+              <input class="input-group-field" type="text"
+                placeholder="Buscar fundo por nome" ng-model="search.simple_name" />
+              <span class="input-group-label">
+                <i class="fi-magnifying-glass"></i>
+              </span>
+            </div>
+            <div class="range-controls">
+              <div class="range-control">
+                <label>Aplicação mínima</label>
+                <input
+                type="range"
+                min="0"
+                max="50000"
+                step="100"
+                ng-model="range.operability.minimum_initial_application_amount" />
+                <div class="select-range-text">
+                  Até R$ {{ range.operability.minimum_initial_application_amount | number: 0 }}
+                </div>
+              </div>
+              <div class="range-control risk-level-control">
+                <label>Perfil de risco do fundo</label>
+                <div class="level-buttons">
+                  <button class="level-button level-button--{{ n }}" type="button" title="Nível {{ n }}"
+                    ng-repeat="n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+                    ng-click="range.specification.fund_risk_profile.score_range_order = n">
+                    <span class="level-button__text">Nível {{ n }}</span>
+                  </button>
+                </div>
+                <span class="lower-level-text">menor</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="12"
+                  ng-model="range.specification.fund_risk_profile.score_range_order" />
+                <span class="higher-level-text">maior</span>
+              </div>
+              <div class="range-control">
+                <label>Prazo de resgate</label>
+                <input
+                type="range"
+                min="0"
+                max="365"
+                ng-model="range.operability.retrieval_quotation_days" />
+                <div class="select-range-text">
+                  Até {{ range.operability.retrieval_quotation_days }} dias úteis
+                </div>
+              </div>
+            </div>
+            <div class="application-limit-time">
+              Horário limite de aplicação: 12:00
+            </div>
+          </div>
+
+          <table class="funds stack">
+            <thead>
+              <tr>
+                <th>Fundo</th>
+                <th>Data da cota</th>
+                <th>Mes (%)</th>
+                <th>2019 (%)</th>
+                <th>12 M (%)</th>
+                <th>Aplicação mínima (R$)</th>
+                <th>Prazo do resgate</th>
+                <th>Aplicar</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="(strategyName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | filter:isInselectedClasses | filter:isInselectedManagers | groupBy: 'specification.fund_macro_strategy.name'">
+              <tr class="funds__strategy-name">
+                <th colspan="8">
+                  <h2>{{ strategyName }}</h2>
+                </th>
+              </tr>
+              <tr class="funds__class"
+                ng-repeat-start="(class, funds) in funds | groupBy: 'specification.fund_class'">
+                <th colspan="8">
+                  <h3>{{ class }}</h3>
+                </th>
+              </tr>
+              <tr class="fund"
+                ng-repeat-start="fund in funds"
+                ng-click="fund.showDetail=!fund.showDetail">
+                <th>
+                  <div class="fund-info fund-info--risk-level-{{ fund.specification.fund_risk_profile.score_range_order }}">
+                    <h4 class="fund__title">
+                      {{ fund.simple_name }}
+                      <span ng-if="fund.specification.is_qualified">
+                        Fundo para investidor qualificado
+                      </span>
+                      <br />
+                      <small>{{ strategyName }} | {{ class }}</small>
+                    </h4>
+                  </div>
+                </th>
+                <td>
+                  {{ fund.initial_date | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                  {{ fund.profitabilities.month * 100 | number: 2 }}
+                </td>
+                <td>
+                  {{ fund.profitabilities.year * 100 | number: 2 }}
+                </td>
+                <td>
+                  {{ fund.profitabilities.m12 * 100 | number: 2 }}
+                </td>
+                <td>
+                  {{ fund.operability.minimum_initial_application_amount | number: 2 }}
+                </td>
+                <td>
+                  {{ fund.operability.retrieval_quotation_days_str }}
+                </td>
+                <td>
+                  <button type="button">Aplicar</button>
+                </td>
+              </tr>
+              <tr ng-repeat-end ng-show="fund.showDetail">
+                <td colspan="8">
+                  <div class="fund-detail">
+                    <p>
+                      <b>Cotização da aplicação:</b>
+                      {{ fund.operability.application_quotation_days_str }}
+                    </p>
+                    <p>
+                      <b>Cotização do resgate:</b>
+                      {{ fund.operability.retrieval_quotation_days_str }}
+                    </p>
+                    <p>
+                      <b>Liquidação do resgate:</b>
+                      {{ fund.operability.retrieval_liquidation_days_str }}
+                    </p>
+                    <p>
+                      <b>Taxa de administração:</b>
+                      {{ fund.fees.administration_fee }}
+                    </p>
+                    <a href="#{{fund.slug}}">
+                      Conheça mais informações sobre este fundo
+                    </a>
+                    <p>
+                      <b>CNPJ:</b>
+                      {{ fund.cnpj }}
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr ng-repeat-end>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="page-main-content__filters">
+          <div class="filters-box"
+            ng-repeat="(strategyName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'specification.fund_macro_strategy.name'"
+            ng-model="strategy">
+            <fieldset>
+              <legend>
+                <input type="checkbox" ng-model="strategy.selectAll" />
+                <span ng-click="strategy.showClassList=!strategy.showClassList">
+                  {{ strategyName }}
+                </span>
+              </legend>
+              <div class="filters-box__items" ng-show="strategy.showClassList">
+                <div class="filters-box__item" ng-repeat="(class, funds) in funds | groupBy: 'specification.fund_class'">
+                  <label>
+                    <input type="checkbox" ng-model="selectedClasses[class]" ng-checked="strategy.selectAll" />
+                    {{ class }}
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="filters-box">
+            <fieldset class="filters-box" ng-model="fundManagers">
+              <legend>
+                <input type="checkbox" ng-model="fundManagers.selectAll" />
+                <span ng-click="fundManagers.showManagerList=!strategy.showManagerList">
+                  Gestores
+                </span>
+              </legend>
+              <div class="filters-box__items" ng-show="fundManagers.showManagerList">
+                <div class="filters-box__item"
+                  ng-repeat="(fundManagerName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'fund_manager.name'">
+                  <label>
+                    <input type="checkbox" ng-model="selectedManagers[fundManagerName]" ng-checked="fundManagers.selectAll" />
+                    {{ fundManagerName }}
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+
+    </main>
+  </body>
+</html>

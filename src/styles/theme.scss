@@ -1,0 +1,271 @@
+.page-header {
+  background: url(../images/header-bg.jpg) no-repeat center center;
+  background-size: cover;
+  color: $white;
+  height: 330px;
+  margin-bottom: 2rem;
+  padding-top: 1em;
+  text-align: center;
+}
+
+.page-header__title {
+  margin: 2em 0 0.5em;
+}
+
+.page-header__header-text {
+  font-size: 1.5em;
+}
+
+.page-main-content__container {
+  @include xy-grid-container;
+  @include xy-grid;
+}
+
+.page-main-content__contents {
+  @include xy-cell(auto);
+}
+
+.page-main-content__filters {
+  @include xy-cell(2);
+}
+
+.search-range,
+.funds,
+.filters-box {
+  background: $white;
+  border-radius: 3px;
+  box-shadow: 0px 2px 3px 0px rgba(153, 153, 153, 0.2);
+}
+
+.search-range,
+.funds {
+  margin-bottom: 1rem;
+}
+
+.search-range {
+  padding: 1rem;
+}
+
+.search-box {
+  max-width: 450px;
+  border-bottom: #424242 solid 1px;
+  .input-group-field {
+    border: none;
+    padding-left: 0;
+    box-shadow: none;
+    &::placeholder {
+      color: #424242;
+      font-weight: normal;
+      opacity: 1;
+    }
+  }
+  .input-group-label {
+    border: none;
+    background: transparent;
+    padding-right: 0;
+  }
+}
+
+.range-controls {
+  background: $theme-light-gray;
+  padding: 30px 10px;
+  @include xy-grid;
+}
+
+.range-control {
+  @include xy-cell(1 of 3);
+  label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+}
+
+.select-range-text {
+  font-size: 12px;
+}
+
+.risk-level-control {
+  display: grid;
+  grid-template-areas:
+    ". label ."
+    "lower buttons higher"
+    ". slider .";
+  grid-template-columns: auto 150px auto;
+  grid-template-rows: auto auto auto;
+  label {
+    grid-area: label;
+  }
+  input {
+    grid-area: slider;
+    margin-top: 4px;
+  }
+}
+
+.level-buttons {
+  align-items: flex-end;
+  display: flex;
+  grid-area: buttons;
+  height: 35px;
+  justify-content: space-between;
+}
+
+.level-button {
+  width: 6%;
+  cursor: pointer;
+}
+
+.level-button--1 { background: $theme-risk-level-1; height: calc(100% - (12 * 2px)); }
+.level-button--2 { background: $theme-risk-level-2; height: calc(100% - (11 * 2px)); }
+.level-button--3 { background: $theme-risk-level-3; height: calc(100% - (10 * 2px)); }
+.level-button--4 { background: $theme-risk-level-4; height: calc(100% - (9 * 2px)); }
+.level-button--5 { background: $theme-risk-level-5; height: calc(100% - (8 * 2px)); }
+.level-button--6 { background: $theme-risk-level-6; height: calc(100% - (7 * 2px)); }
+.level-button--7 { background: $theme-risk-level-7; height: calc(100% - (6 * 2px)); }
+.level-button--8 { background: $theme-risk-level-8; height: calc(100% - (5 * 2px)); }
+.level-button--9 { background: $theme-risk-level-9; height: calc(100% - (4 * 2px)); }
+.level-button--10 { background: $theme-risk-level-10; height: calc(100% - (3 * 2px)); }
+.level-button--11 { background: $theme-risk-level-11; height: calc(100% - (2 * 2px)); }
+.level-button--12 { background: $theme-risk-level-12; height: calc(100% - (1 * 2px)); }
+
+.level-button__text {
+  display: none;
+}
+
+.lower-level-text,
+.higher-level-text {
+  align-self: end;
+  font-size: 11px;
+}
+
+.lower-level-text {
+  grid-area: lower;
+  justify-self: end;
+  margin-right: 4px;
+}
+
+.higher-level-text {
+  grid-area: higher;
+  margin-left: 4px;
+}
+
+.application-limit-time {
+  font-size: 11px;
+  color: #8e8e8e;
+  margin-top: 10px;
+}
+
+.funds {
+  thead {
+    background: $white;
+    th {
+      font-size: 12px;
+      padding-top: 2em;
+      text-align: right;
+      vertical-align: bottom;
+      &:first-child {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.funds__strategy-name {
+  background: #eeeeee;
+  th {
+    text-align: left;
+  }
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0.5em 0;
+    text-transform: uppercase;
+  }
+}
+
+.funds__class {
+  background: #fafafa;
+  th {
+    text-align: left;
+  }
+  h3 {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0.5em 0;
+  }
+}
+
+.fund {
+  th {
+    font-weight: normal;
+    padding: 0;
+    text-align: left;
+  }
+  td {
+    text-align: right;
+  }
+}
+
+.fund-info {
+  border-left: #eee solid 5px;
+  padding: 10px 10px 10px 5px;
+  max-width: 300px
+}
+
+.fund-info--risk-level-1 { border-color: $theme-risk-level-1; }
+.fund-info--risk-level-2 { border-color: $theme-risk-level-2; }
+.fund-info--risk-level-3 { border-color: $theme-risk-level-3; }
+.fund-info--risk-level-4 { border-color: $theme-risk-level-4; }
+.fund-info--risk-level-5 { border-color: $theme-risk-level-5; }
+.fund-info--risk-level-6 { border-color: $theme-risk-level-6; }
+.fund-info--risk-level-7 { border-color: $theme-risk-level-7; }
+.fund-info--risk-level-8 { border-color: $theme-risk-level-8; }
+.fund-info--risk-level-9 { border-color: $theme-risk-level-9; }
+.fund-info--risk-level-10 { border-color: $theme-risk-level-10; }
+.fund-info--risk-level-11 { border-color: $theme-risk-level-11; }
+.fund-info--risk-level-12 { border-color: $theme-risk-level-12; }
+
+.fund__title {
+  font-size: 14px;
+}
+
+.fund-detail {
+  font-size: 12px;
+}
+
+.filters-box {
+  background: $theme-light-gray;
+  margin-bottom: 0.75rem;
+  legend {
+    padding: 16px 8px 8px 32px;
+    position: relative;
+    input {
+      position: absolute;
+      left: 8px;
+      top: 20px;
+    }
+    span {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.filters-box__items {
+  background: $white;
+}
+
+.filters-box__item {
+  border-bottom: #eee solid 1px;
+  padding: 16px 8px 16px 32px;
+  position: relative;
+  label {
+    line-height: 1.2em;
+  }
+  input {
+    position: absolute;
+    left: 8px;
+    top: 16px;
+  }
+}
