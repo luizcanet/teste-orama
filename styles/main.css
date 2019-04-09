@@ -6153,7 +6153,7 @@ html.is-reveal-open body {
   background: url(../images/header-bg.jpg) no-repeat center center;
   background-size: cover;
   color: #fefefe;
-  height: 330px;
+  height: 165px;
   margin-bottom: 2rem;
   padding-top: 1em;
   text-align: center;
@@ -6164,7 +6164,7 @@ html.is-reveal-open body {
 }
 
 .page-header__header-text {
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .page-main-content__container {
@@ -6173,27 +6173,12 @@ html.is-reveal-open body {
   max-width: 75rem;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  flex-flow: row wrap;
 }
 @media print, screen and (min-width: 40em) {
   .page-main-content__container {
     padding-right: 0.9375rem;
     padding-left: 0.9375rem;
   }
-}
-
-.page-main-content__contents {
-  flex: 1 1 0px;
-  width: auto;
-  margin-right: 0.625rem;
-  margin-left: 0.625rem;
-}
-
-.page-main-content__filters {
-  width: calc(16.6666666667% - 1.25rem);
-  margin-right: 0.625rem;
-  margin-left: 0.625rem;
 }
 
 .search-range,
@@ -6235,15 +6220,11 @@ html.is-reveal-open body {
 
 .range-controls {
   background: #fafafa;
-  padding: 30px 10px;
-  display: flex;
-  flex-flow: row wrap;
+  padding: 30px 20px;
 }
 
 .range-control {
-  width: calc(33.3333333333% - 1.25rem);
-  margin-right: 0.625rem;
-  margin-left: 0.625rem;
+  margin-bottom: 1em;
 }
 .range-control label {
   font-size: 12px;
@@ -6253,13 +6234,15 @@ html.is-reveal-open body {
 
 .select-range-text {
   font-size: 12px;
+  margin-top: 1em;
 }
 
 .risk-level-control {
   display: grid;
-  grid-template-areas: ". label ." "lower buttons higher" ". slider .";
+  grid-template-areas: "label label ." "lower buttons higher" ". slider .";
   grid-template-columns: auto 150px auto;
   grid-template-rows: auto auto auto;
+  justify-content: start;
 }
 .risk-level-control label {
   grid-area: label;
@@ -6367,6 +6350,11 @@ html.is-reveal-open body {
   font-size: 11px;
   color: #8e8e8e;
   margin-top: 10px;
+}
+
+.funds-wrapper {
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .funds thead {
@@ -6514,3 +6502,58 @@ html.is-reveal-open body {
   left: 8px;
   top: 16px;
 }
+
+/* Small only */
+/* Medium and up */
+@media screen and (min-width: 40em) {
+  .range-controls {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .range-control {
+    margin-right: 20px;
+  }
+
+  .risk-level-control {
+    grid-template-areas: ". label ." "lower buttons higher" ". slider .";
+  }
+}
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .page-header__title {
+    font-size: 2rem;
+    margin: 1em 0 0.5em;
+  }
+
+  .page-header__header-text {
+    font-size: 1em;
+  }
+}
+/* Large and up */
+@media screen and (min-width: 64em) {
+  .page-header {
+    height: 330px;
+  }
+
+  .page-header__header-text {
+    font-size: 2em;
+  }
+
+  .page-main-content__container {
+    display: grid;
+    grid-template-columns: auto 175px;
+    grid-column-gap: 30px;
+  }
+
+  .range-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: start;
+  }
+
+  .range-control {
+    margin-right: 0;
+  }
+}
+/* Large only */
