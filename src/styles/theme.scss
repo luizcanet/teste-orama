@@ -2,7 +2,7 @@
   background: url(../images/header-bg.jpg) no-repeat center center;
   background-size: cover;
   color: $white;
-  height: 330px;
+  height: 165px;
   margin-bottom: 2rem;
   padding-top: 1em;
   text-align: center;
@@ -13,20 +13,11 @@
 }
 
 .page-header__header-text {
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
 .page-main-content__container {
   @include xy-grid-container;
-  @include xy-grid;
-}
-
-.page-main-content__contents {
-  @include xy-cell(auto);
-}
-
-.page-main-content__filters {
-  @include xy-cell(2);
 }
 
 .search-range,
@@ -68,12 +59,11 @@
 
 .range-controls {
   background: $theme-light-gray;
-  padding: 30px 10px;
-  @include xy-grid;
+  padding: 30px 20px;
 }
 
 .range-control {
-  @include xy-cell(1 of 3);
+  margin-bottom: 1em;
   label {
     font-size: 12px;
     font-weight: bold;
@@ -83,16 +73,18 @@
 
 .select-range-text {
   font-size: 12px;
+  margin-top: 1em;
 }
 
 .risk-level-control {
   display: grid;
   grid-template-areas:
-    ". label ."
+    "label label ."
     "lower buttons higher"
     ". slider .";
   grid-template-columns: auto 150px auto;
   grid-template-rows: auto auto auto;
+  justify-content: start;
   label {
     grid-area: label;
   }
@@ -153,6 +145,11 @@
   font-size: 11px;
   color: #8e8e8e;
   margin-top: 10px;
+}
+
+.funds-wrapper {
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .funds {
@@ -269,3 +266,67 @@
     top: 16px;
   }
 }
+
+/* Small only */
+@media screen and (max-width: 39.9375em) {}
+
+/* Medium and up */
+@media screen and (min-width: 40em) {
+  .range-controls {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .range-control {
+    margin-right: 20px;
+  }
+
+  .risk-level-control {
+    grid-template-areas:
+      ". label ."
+      "lower buttons higher"
+      ". slider .";
+  }
+}
+
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .page-header__title {
+    font-size: 2rem;
+    margin: 1em 0 0.5em;
+  }
+
+  .page-header__header-text {
+    font-size: 1em;
+  }
+}
+
+/* Large and up */
+@media screen and (min-width: 64em) {
+  .page-header {
+    height: 330px;
+  }
+
+  .page-header__header-text {
+    font-size: 2em;
+  }
+
+  .page-main-content__container {
+    display: grid;
+    grid-template-columns: auto 175px;
+    grid-column-gap: 30px;
+  }
+
+  .range-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: start;
+  }
+
+  .range-control {
+    margin-right: 0;
+  }
+}
+
+/* Large only */
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {}

@@ -24,63 +24,106 @@
 
     <main class="page-main-content">
       <div class="page-main-content__container">
-        <div class="page-main-content__contents">
-          <div class="search-range">
-            <div class="search-box input-group">
-              <input class="input-group-field" type="text"
-                placeholder="Buscar fundo por nome" ng-model="search.simple_name" />
-              <span class="input-group-label">
-                <i class="fi-magnifying-glass"></i>
-              </span>
-            </div>
-            <div class="range-controls">
-              <div class="range-control">
-                <label>Aplicação mínima</label>
-                <input
-                type="range"
-                min="0"
-                max="50000"
-                step="100"
-                ng-model="range.operability.minimum_initial_application_amount" />
-                <div class="select-range-text">
-                  Até R$ {{ range.operability.minimum_initial_application_amount | number: 0 }}
-                </div>
-              </div>
-              <div class="range-control risk-level-control">
-                <label>Perfil de risco do fundo</label>
-                <div class="level-buttons">
-                  <button class="level-button level-button--{{ n }}" type="button" title="Nível {{ n }}"
-                    ng-repeat="n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
-                    ng-click="range.specification.fund_risk_profile.score_range_order = n">
-                    <span class="level-button__text">Nível {{ n }}</span>
-                  </button>
-                </div>
-                <span class="lower-level-text">menor</span>
-                <input
-                  type="range"
-                  min="1"
-                  max="12"
-                  ng-model="range.specification.fund_risk_profile.score_range_order" />
-                <span class="higher-level-text">maior</span>
-              </div>
-              <div class="range-control">
-                <label>Prazo de resgate</label>
-                <input
-                type="range"
-                min="0"
-                max="365"
-                ng-model="range.operability.retrieval_quotation_days" />
-                <div class="select-range-text">
-                  Até {{ range.operability.retrieval_quotation_days }} dias úteis
-                </div>
+        <div class="search-range">
+          <div class="search-box input-group">
+            <input class="input-group-field" type="text"
+              placeholder="Buscar fundo por nome" ng-model="search.simple_name" />
+            <span class="input-group-label">
+              <i class="fi-magnifying-glass"></i>
+            </span>
+          </div>
+          <div class="range-controls">
+            <div class="range-control">
+              <label>Aplicação mínima</label>
+              <input
+              type="range"
+              min="0"
+              max="50000"
+              step="100"
+              ng-model="range.operability.minimum_initial_application_amount" />
+              <div class="select-range-text">
+                Até R$ {{ range.operability.minimum_initial_application_amount | number: 0 }}
               </div>
             </div>
-            <div class="application-limit-time">
-              Horário limite de aplicação: 12:00
+            <div class="range-control risk-level-control">
+              <label>Perfil de risco do fundo</label>
+              <div class="level-buttons">
+                <button class="level-button level-button--{{ n }}" type="button" title="Nível {{ n }}"
+                  ng-repeat="n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+                  ng-click="range.specification.fund_risk_profile.score_range_order = n">
+                  <span class="level-button__text">Nível {{ n }}</span>
+                </button>
+              </div>
+              <span class="lower-level-text">menor</span>
+              <input
+                type="range"
+                min="1"
+                max="12"
+                ng-model="range.specification.fund_risk_profile.score_range_order" />
+              <span class="higher-level-text">maior</span>
+            </div>
+            <div class="range-control">
+              <label>Prazo de resgate</label>
+              <input
+              type="range"
+              min="0"
+              max="365"
+              ng-model="range.operability.retrieval_quotation_days" />
+              <div class="select-range-text">
+                Até {{ range.operability.retrieval_quotation_days }} dias úteis
+              </div>
             </div>
           </div>
+          <div class="application-limit-time">
+            Horário limite de aplicação: 12:00
+          </div>
+        </div>
 
-          <table class="funds stack">
+        <div class="page-main-content__filters">
+          <div class="filters-box"
+            ng-repeat="(strategyName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'specification.fund_macro_strategy.name'"
+            ng-model="strategy">
+            <fieldset>
+              <legend>
+                <input type="checkbox" ng-model="strategy.selectAll" />
+                <span ng-click="strategy.showClassList=!strategy.showClassList">
+                  {{ strategyName }}
+                </span>
+              </legend>
+              <div class="filters-box__items" ng-show="strategy.showClassList">
+                <div class="filters-box__item" ng-repeat="(class, funds) in funds | groupBy: 'specification.fund_class'">
+                  <label>
+                    <input type="checkbox" ng-model="selectedClasses[class]" ng-checked="strategy.selectAll" />
+                    {{ class }}
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="filters-box">
+            <fieldset class="filters-box" ng-model="fundManagers">
+              <legend>
+                <input type="checkbox" ng-model="fundManagers.selectAll" />
+                <span ng-click="fundManagers.showManagerList=!strategy.showManagerList">
+                  Gestores
+                </span>
+              </legend>
+              <div class="filters-box__items" ng-show="fundManagers.showManagerList">
+                <div class="filters-box__item"
+                  ng-repeat="(fundManagerName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'fund_manager.name'">
+                  <label>
+                    <input type="checkbox" ng-model="selectedManagers[fundManagerName]" ng-checked="fundManagers.selectAll" />
+                    {{ fundManagerName }}
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="funds-wrapper">
+          <table class="funds">
             <thead>
               <tr>
                 <th>Fundo</th>
@@ -175,49 +218,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-
-        <div class="page-main-content__filters">
-          <div class="filters-box"
-            ng-repeat="(strategyName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'specification.fund_macro_strategy.name'"
-            ng-model="strategy">
-            <fieldset>
-              <legend>
-                <input type="checkbox" ng-model="strategy.selectAll" />
-                <span ng-click="strategy.showClassList=!strategy.showClassList">
-                  {{ strategyName }}
-                </span>
-              </legend>
-              <div class="filters-box__items" ng-show="strategy.showClassList">
-                <div class="filters-box__item" ng-repeat="(class, funds) in funds | groupBy: 'specification.fund_class'">
-                  <label>
-                    <input type="checkbox" ng-model="selectedClasses[class]" ng-checked="strategy.selectAll" />
-                    {{ class }}
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-
-          <div class="filters-box">
-            <fieldset class="filters-box" ng-model="fundManagers">
-              <legend>
-                <input type="checkbox" ng-model="fundManagers.selectAll" />
-                <span ng-click="fundManagers.showManagerList=!strategy.showManagerList">
-                  Gestores
-                </span>
-              </legend>
-              <div class="filters-box__items" ng-show="fundManagers.showManagerList">
-                <div class="filters-box__item"
-                  ng-repeat="(fundManagerName, funds) in funds | filter:search | filter:range:isLessThanOrEqualTo | groupBy: 'fund_manager.name'">
-                  <label>
-                    <input type="checkbox" ng-model="selectedManagers[fundManagerName]" ng-checked="fundManagers.selectAll" />
-                    {{ fundManagerName }}
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
         </div>
       </div>
 
