@@ -201,6 +201,13 @@
   td {
     text-align: right;
   }
+  .button {
+    border-radius: 100%;
+    margin-bottom: 0;
+  }
+  .button__text {
+    display: none;
+  }
 }
 
 .fund-info {

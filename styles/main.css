@@ -6403,6 +6403,13 @@ html.is-reveal-open body {
 .fund td {
   text-align: right;
 }
+.fund .button {
+  border-radius: 100%;
+  margin-bottom: 0;
+}
+.fund .button__text {
+  display: none;
+}
 
 .fund-info {
   border-left: #eee solid 5px;
